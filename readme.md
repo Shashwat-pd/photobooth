@@ -1,5 +1,4 @@
 [AI GENERATED README]
-Absolutely! Here’s your updated **`README.md`** with:
 
 * ✅ Clean structure
 * ✅ Install instructions using `requirements.txt`
