@@ -2,17 +2,24 @@ from vars import SAVE_DIR, DELAY, PHOTO_COUNT, FRAME_SIZE
 import os
 import cv2
 import time
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
 
 from frame import frame_main
 from overlay_countdown import overlay_countdown
 from video import gif
 
 
-
-
 if not os.path.exists(SAVE_DIR):
     os.makedirs(SAVE_DIR)
+
+
+def enhance_bw(image: Image.Image, contrast_factor=1.5, sharpness_factor=1.5) -> Image.Image:
+    gray = image.convert("L")
+    contrast = ImageEnhance.Contrast(gray).enhance(contrast_factor)
+    sharp = ImageEnhance.Sharpness(contrast).enhance(sharpness_factor)
+
+    return sharp.convert("RGB")
+
 
 def capture_photobooth():
     cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION) 
@@ -52,8 +59,9 @@ def capture_photobooth():
         
         preview_frame = cv2.resize(frame.copy(), FRAME_SIZE)
 
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  
-        img_pil = Image.fromarray(img).convert("RGB")  
+        img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        img_pil = enhance_bw(img_pil)
+  
 
 
         filename = os.path.join(SAVE_DIR, f"photo_{i+1}.png")
