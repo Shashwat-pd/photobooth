@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from frame import frame_main
 from overlay_countdown import overlay_countdown
+from video import gif
 
 
 
@@ -65,6 +66,7 @@ def capture_photobooth():
         cv2.waitKey(300)
 
     frame_main()
+    gif()
 
     cap.release()
     cv2.destroyAllWindows()

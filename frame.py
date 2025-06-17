@@ -26,34 +26,34 @@ def frame_main():
     crop_size = (1000, 1000)   
     border = 50                
     side_border = 100          
-    label_height = 150         # Space at bottom for text
+    label_height = 150        
 
     images = [center_crop(img, crop_size) for img in images]
 
-    # Calculate final canvas size
+
     strip_width = crop_size[0] + side_border * 2
     strip_height = crop_size[1] * len(images) + border * (len(images) - 1) + label_height 
 
-    # Create canvas
+
     film_strip = Image.new('RGB', (strip_width, strip_height), color='white')
 
-    # Paste images
+
     for i, img in enumerate(images):
         y_offset = i * (crop_size[1] + border)
         film_strip.paste(img, (side_border, y_offset))
 
 
 
-# Initial setup
+
     
     draw = ImageDraw.Draw(film_strip)
     text = f"{os.getenv('MARK')} "
 
-    # Max allowed size
-    max_width = strip_width - 500  # Leave 50px padding on each side
+
+    max_width = strip_width - 500  
     max_height = label_height - 20
 
-    # Try increasing font size until it no longer fits
+
     font_path = "Poppins.ttf"
     font_size = 10
     while True:
@@ -77,14 +77,14 @@ def frame_main():
 
         font_size += 1
 
-    # Center position
+
     text_x = (strip_width - text_width) // 2
     text_y = strip_height - label_height + (label_height - text_height) // 2 - 20
 
     draw.text((text_x, text_y), text, font=font, fill='black')
 
 
-    # Save
+
     output_path = f"{SAVE_DIR}/photobooth.png"
 
 
