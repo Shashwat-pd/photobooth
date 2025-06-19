@@ -3,6 +3,7 @@ import os
 import cv2
 import time
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+import subprocess
 
 from frame import frame_main
 from overlay_countdown import overlay_countdown
@@ -78,6 +79,9 @@ def capture_photobooth():
 
     frame_main()
     gif()
+    subprocess.run(["open",SAVE_DIR])
+
+
 
     cap.release()
     cv2.destroyAllWindows()
