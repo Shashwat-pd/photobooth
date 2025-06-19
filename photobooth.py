@@ -13,7 +13,7 @@ if not os.path.exists(SAVE_DIR):
     os.makedirs(SAVE_DIR)
 
 
-def enhance_bw(image: Image.Image, contrast_factor=1.5, sharpness_factor=1.5) -> Image.Image:
+def enhance_bw(image: Image.Image, contrast_factor=1, sharpness_factor=1.5) -> Image.Image:
     gray = image.convert("L")
     contrast = ImageEnhance.Contrast(gray).enhance(contrast_factor)
     sharp = ImageEnhance.Sharpness(contrast).enhance(sharpness_factor)
@@ -36,8 +36,10 @@ def capture_photobooth():
             ret, frame = cap.read()
             if not ret:
                 break
-
+            frame = cv2.flip(frame, 1)
+            
             frame = cv2.resize(frame, FRAME_SIZE)
+
 
             elapsed = int(time.time() - start)
             remaining = DELAY - elapsed
@@ -52,11 +54,12 @@ def capture_photobooth():
                 break
 
         ret, frame = cap.read()
+        frame = cv2.flip(frame, 1)
+
         
         if not ret:
             print("Failed to capture photo")
             continue
-        
         preview_frame = cv2.resize(frame.copy(), FRAME_SIZE)
 
         img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))

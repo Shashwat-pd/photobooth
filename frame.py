@@ -23,7 +23,7 @@ def frame_main():
 
 
     
-    crop_size = (1000, 1000)   
+    crop_size = (700, 700)   
     border = 50                
     side_border = 100          
     label_height = 150        
